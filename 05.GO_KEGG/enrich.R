@@ -118,7 +118,10 @@ dev.off()
 # 此处并不完美，并不是对应物种专用的pathway，有改善空间
 #id.map <- select(org.My.eg.db, keys = names(geneList), columns = "Ko")
 #gene.ko <- mol.sum(mol.data = geneList, id.map = ko2gene)
-gene.ko <- as.matrix(geneList[!is.na(names(geneList))])
+gene.ko <- geneList
+id <- tibble(GID = names(gene.ko)) %>% left_join(ko2gene, by = "GID")
+names(gene.ko) <- id$KO
+gene.ko <- as.matrix(gene.ko[!is.na(names(gene.ko))])
 
 sig.pathway <- as.character(filter(de_ekp_df, p.adjust < argv$enrich_qvalue)$ID)
 
