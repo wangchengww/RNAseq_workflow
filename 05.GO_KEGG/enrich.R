@@ -37,7 +37,7 @@ library(clusterProfiler)
 library(pathview)
 library(enrichplot)
 
-library(orgdb, lib.loc = "R_library", character.only = TRUE)
+library(orgdb, lib.loc = "R_Library", character.only = TRUE)
 
 de_result <- read.table(file = argv$de_result)
 gene <- filter(de_result,
