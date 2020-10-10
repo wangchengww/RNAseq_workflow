@@ -73,6 +73,7 @@ Rscript run-featurecounts.R \
 	-b ../01.Mapping/${i[1]}.sort.bam \
 	-g ${gtf} -o ${i[1]} \
 	--nthread ${thread} \
+	--featureType ${featureType} \
 	--attrType ${attrType} \
 	--strandSpecific ${strandSpecific}
 
