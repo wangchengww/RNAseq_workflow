@@ -57,10 +57,10 @@ p1 <- ggplot(de_ego_df, aes(x = reorder(Description, p.adjust), y = GeneRatio)) 
   theme_half_open() +
   mytheme
 p1
-ggsave(p1, filename = paste(file, "GO_barplot1.pdf", sep = "."), height = 9, width = 9)
-ggsave(p1, filename = paste(file, "GO_barplot1.png", sep = "."), height = 9, width = 9, dpi = 500)
+ggsave(p1, filename = paste(out_prefix, "GO_barplot1.pdf", sep = "."), height = argv$GO_height, width = argv$GO_width)
+ggsave(p1, filename = paste(out_prefix, "GO_barplot1.png", sep = "."), height = argv$GO_height, width = argv$GO_width, dpi = 500)
 
-p2 <- ggplot(de_ego_df, aes(x = Description, y = GeneRatio)) +
+p2 <- ggplot(de_ego_df, aes(x = x = reorder(Description, p.adjust), y = GeneRatio)) +
   geom_bar(aes(fill = ONTOLOGY), color="black", stat= 'identity',width = 0.7) +
   geom_text(aes(x = Description, y = GeneRatio), label = de_ego_df$term_deg, vjust=-1,size=3.5) +
   scale_fill_aaas() +
