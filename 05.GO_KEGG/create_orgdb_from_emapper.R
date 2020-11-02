@@ -44,11 +44,15 @@ AnnotationForge::makeOrgPackage(gene_info=gene_info,
 
 pkgbuild::build('.//org.My.eg.db', dest_path = ".")
 
-
+## 准备GO数据库
+dir.create('R_Library', recursive = T)
+install.packages('org.My.eg.db_1.0.tar.gz', 
+                 repos = NULL, #从本地安装
+                 lib = 'R_Library') # 安装文件夹
 
 ## 准备 TERM2GENE
 
-emapper <- read_delim('data/rnaseq-apple/query_seqs.fa.emapper.annotations', 
+emapper <- read_delim(argv$annotation, 
                       "\t", escape_double = FALSE, col_names = FALSE, 
                       comment = "#", trim_ws = TRUE) %>%
   dplyr::select(GID = X1, 
