@@ -40,21 +40,21 @@ fastp -i ${i[2]} -o ./${i[1]}_1.clean.fastq.gz \
 mkdir -p ${work_dir}/01.Mapping
 cd ${work_dir}/01.Mapping
 
-if [ strandSpecific = 0 ]; then
+if [ $strandSpecific = 0 ]; then
 	hisat2 --new-summary -p ${thread} \
            -x ${index} \
            -1 ../00.data/01.clean_data/${i[1]}_1.clean.fastq.gz \
            -2 ../00.data/01.clean_data/${i[1]}_2.clean.fastq.gz \
            -S ${i[1]}.sam \
            1> ${i[1]}.log 2>&1
-elif [ strandSpecific = 1 ]; then
+elif [ $strandSpecific = 1 ]; then
 	hisat2 --new-summary -p ${thread} \
            -x ${index} --rna-strandness RF \
            -1 ../00.data/01.clean_data/${i[1]}_1.clean.fastq.gz \
            -2 ../00.data/01.clean_data/${i[1]}_2.clean.fastq.gz \
            -S ${i[1]}.sam \
            1> ${i[1]}.log 2>&1
-elif [ strandSpecific = 2 ]; then
+elif [ $strandSpecific = 2 ]; then
 	hisat2 --new-summary -p ${thread} \
            -x ${index} --rna-strandness FR \
            -1 ../00.data/01.clean_data/${i[1]}_1.clean.fastq.gz \
