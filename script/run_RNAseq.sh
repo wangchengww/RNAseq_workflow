@@ -65,6 +65,7 @@ fi
 
 samtools sort -@ ${thread} -o ${i[1]}.sort.bam ${i[1]}.sam
 samtools index ${i[1]}.sort.bam
+rm ${i[1]}.sam
 
 # 定量
 mkdir -p  ${work_dir}/02.Quantification

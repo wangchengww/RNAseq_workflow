@@ -37,6 +37,11 @@ library(clusterProfiler)
 library(pathview)
 library(enrichplot)
 
+#dir.create('R_Library', recursive = T)
+#install.packages('org.My.eg.db_1.0.tar.gz', 
+#                 repos = NULL, #从本地安装
+#                 lib = 'R_Library') # 安装文件夹
+
 library(orgdb, lib.loc = "R_Library", character.only = TRUE)
 
 de_result <- read.table(file = argv$de_result)
