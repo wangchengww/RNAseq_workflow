@@ -1,12 +1,32 @@
+#  run_RNAseq.sh
+#  
+#  Copyright 2021 WangPF <wangpf0608@126.com>
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#  
+#  
 #!/bin/bash
 # Program:
 # 	RNAseq workflow
 # History:
-# 	2020/09/22	First release
+# 	20210118	First release
 # Author:
 # 	WangPF
 
-##
+## 加载配置文件
 . .conf
 
 #########################################################################
@@ -82,7 +102,7 @@ done
 
 cd ${work_dir}/03.Merge_result
 
-ls ../02.Quantification/*.count >genes.quant_files.txt
+cut -f2 ${sample} | sed 's/^/..\/02.Quantification\//' | sed 's/$/.count/' > genes.quant_files.txt
 perl script/abundance_estimates_to_matrix.pl --est_method featureCounts --quant_files genes.quant_files.txt --out_prefix genes
 
 # 差异表达
