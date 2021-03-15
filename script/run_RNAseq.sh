@@ -100,6 +100,13 @@ Rscript run-featurecounts.R \
 
 done
 
+cd ${work_dir}/00.data/01.clean_data
+Rscript stat.R
+
+cd ${work_dir}/01.Mapping
+echo -e "Sample,Total read,Mapping read,Mapping rate,Unique mapping read,Unique mapping rate" > align_stat.csv
+for i in $(cut -f2 ${sample}); do perl alignStat.pl $i; done >> align_stat.csv
+
 cd ${work_dir}/03.Merge_result
 
 cut -f2 ${sample} | sed 's/^/..\/02.Quantification\//' | sed 's/$/.count/' > genes.quant_files.txt
