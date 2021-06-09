@@ -2,7 +2,7 @@
 # parse parameter ---------------------------------------------------------
 library(argparser, quietly=TRUE)
 # Create a parser
-p <- arg_parser("do GO/KEGG enrichment, need prepare kegg_info.RData(containing ko2gene pathway2gene and pathway2name) in this folder, Orgdb must be installed in ./R_Library")
+p <- arg_parser("do GO/KEGG enrichment, need prepare kegg_info.RData(containing ko2gene pathway2gene and pathway2name) and org.*.eg.db_1.0.tar.gz in $work_dir/db")
 
 # Add command line arguments
 p <- add_argument(p, "--de_result", help="input de_result file, from run_DE_analysis.pl", type="character")
@@ -37,12 +37,16 @@ library(clusterProfiler)
 library(pathview)
 library(enrichplot)
 
-#dir.create('R_Library', recursive = T)
-#install.packages('org.My.eg.db_1.0.tar.gz', 
-#                 repos = NULL, #从本地安装
-#                 lib = 'R_Library') # 安装文件夹
+if (!dir.exists("../db/R_Library/")) {
+  dir.create('../db/R_Library', recursive = T)
+  if (!requireNamespace(orgdb, lib.loc = "../db/R_Library/", quietly = TRUE)) {
+    install.packages('../db/org.*.eg.db_1.0.tar.gz', 
+                     repos = NULL, #从本地安装
+                     lib = '../db/R_Library') # 安装文件夹
+  }
+}
 
-library(orgdb, lib.loc = "R_Library", character.only = TRUE)
+library(orgdb, lib.loc = "../db/R_Library", character.only = TRUE)
 
 de_result <- read.table(file = argv$de_result)
 gene <- filter(de_result,
@@ -61,8 +65,8 @@ de_ego <- enrichGO(gene = gene,
                    pvalueCutoff = argv$enrich_pvalue)
 de_ego_df <- as.data.frame(de_ego)
 head(de_ego_df)
-write_csv(x = de_ego_df, path = paste(out_prefix, "GO_result", "csv", sep = "."))
-write_tsv(x = de_ego_df, path = paste(out_prefix, "GO_result", "txt", sep = "."))
+write_csv(de_ego_df, paste(out_prefix, "GO_result", "csv", sep = "."))
+write_tsv(de_ego_df, paste(out_prefix, "GO_result", "txt", sep = "."))
 
 # GO绘图
 pdf(file = paste(out_prefix, "GO_barplot.pdf", sep = "."))
@@ -76,7 +80,7 @@ barplot(de_ego, showCategory=15, split="ONTOLOGY") +
 dev.off()
 
 ## KEGG
-load("kegg_info.RData")
+load("../db/kegg_info.RData")
 de_ekp <- enricher(gene,
                    TERM2GENE = pathway2gene,
                    TERM2NAME = pathway2name,
@@ -84,8 +88,8 @@ de_ekp <- enricher(gene,
                    qvalueCutoff = argv$enrich_qvalue)
 de_ekp_df <- as.data.frame(de_ekp)
 head(de_ekp_df)
-write_csv(x = de_ekp_df, path = paste(out_prefix, "KEGG_result", "csv", sep = "."))
-write_tsv(x = de_ekp_df, path = paste(out_prefix, "KEGG_result", "txt", sep = "."))
+write_csv(de_ekp_df, paste(out_prefix, "KEGG_result", "csv", sep = "."))
+write_tsv(de_ekp_df, paste(out_prefix, "KEGG_result", "txt", sep = "."))
 
 # KEGG绘图
 pdf(file = paste(out_prefix, "KEGG_dotplot.pdf", sep = "."))

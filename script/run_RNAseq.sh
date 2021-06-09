@@ -31,9 +31,10 @@
 
 #########################################################################
 ## 准备
-cd ${work_dir}/refseq
+cd ${work_dir}/db
 hisat2-build -p ${thread} ${genome} ${index}
 gffread ${gff} -T -o ${gtf}
+convert2bed --input=gff --output=bed < ${gff} > ${bed}
 #########################################################################
 
 
@@ -100,7 +101,10 @@ Rscript run-featurecounts.R \
 
 done
 
+cd ${work_dir}/00.data/00.raw_data
+fastqc -o ./QC --nogroup --threads ${thread} *[fastq\|fq].gz
 cd ${work_dir}/00.data/01.clean_data
+fastqc -o ./QC --nogroup --threads ${thread} *clean.fastq.gz
 Rscript stat.R
 
 cd ${work_dir}/01.Mapping
@@ -130,5 +134,15 @@ Rscript enrich.R --de_result ${de_result} \
 	--enrich_pvalue ${enrich_pvalue} \
 	--enrich_qvalue ${enrich_qvalue} \
 	--orgdb ${orgdb} \
+	--species ${species}
+done
+
+cd ${work_dir}/06.GSEA
+for de_result in ${work_dir}/04.DE_analysis/DESeq2.*/*DE_results
+do
+Rscript GSEA.R --de_result ${de_result} \
+	--enrich_pvalue ${enrich_pvalue} \
+	--orgdb ${orgdb} \
+	--draePdf ${pdf} \
 	--species ${species}
 done
