@@ -37,11 +37,12 @@ library(tidyverse)
 
 if (!dir.exists("../db/R_Library/")) {
   dir.create('../db/R_Library', recursive = T)
-  if (!requireNamespace(orgdb, lib.loc = "../db/R_Library/", quietly = TRUE)) {
-    install.packages('../db/org.*.eg.db_1.0.tar.gz', 
-                     repos = NULL, #从本地安装
-                     lib = '../db/R_Library') # 安装文件夹
-  }
+}
+if (!requireNamespace(orgdb, lib.loc = "../db/R_Library/", quietly = TRUE)) {
+  orgpkg <- list.files(path = "../db/", pattern = "org.*eg.db_.*tar\\.gz")[[1]]
+  install.packages(paste("../db/", orgpkg, sep = ""), 
+                   repos = NULL, #从本地安装
+                   lib = '../db/R_Library') # 安装文件夹
 }
 library(orgdb, lib.loc = "../db/R_Library", character.only = TRUE)
 
