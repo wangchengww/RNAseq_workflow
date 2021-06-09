@@ -29,6 +29,7 @@ if (test) {
 ########################################################################
 
 filename <- basename(argv$de_result)
+orgdb <- argv$orgdb
 
 ## load R packages
 library(clusterProfiler)
