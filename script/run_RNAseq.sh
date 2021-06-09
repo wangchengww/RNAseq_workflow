@@ -123,7 +123,14 @@ perl ${trinity}/Analysis/DifferentialExpression/run_DE_analysis.pl \
     --method ${de_method} \
     --samples_file ../00.data/samples.txt \
     --contrasts contrasts.txt 
-
+for i in DESeq2.*.dir/genes.counts.matrix.*DE_results
+do
+Rscript Volcano_plot.R \
+	--de_result ${i} \
+	--padj_cutoff ${de_padj} \
+	--log2FC_cutoff ${de_log2FoldChange}
+done
+	
 # 富集分析
 cd ${work_dir}/05.GO_KEGG
 for de_result in ${work_dir}/04.DE_analysis/DESeq2.*/*DE_results
