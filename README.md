@@ -23,6 +23,7 @@ This is a RNAseq workflow.
 
 ---
 <div id="ref"></div>
+
 #  参考文献
 - [1] Shifu Chen, Yanqing Zhou, Yaru Chen, Jia Gu. fastp: an ultra-fast all-in-one FASTQ preprocessor[J]. Bioinformatics, 2018, 34(17).
 - [2] Daehwan Kim, Joseph M. Paggi, Chanhee Park, Christopher Bennett, Steven L. Salzberg. Graph-based genome alignment and genotyping with HISAT2 and HISAT-genotype[J]. Nature Biotechnology: The Science and Business of Biotechnology, 2019, 37(8).
