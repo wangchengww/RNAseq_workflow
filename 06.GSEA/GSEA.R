@@ -30,6 +30,9 @@ if (test) {
 
 filename <- basename(argv$de_result)
 orgdb <- argv$orgdb
+enrich_pvalue <- argv$enrich_pvalue
+draw_pdf <- argv$drawPdf
+species <- argv$species
 
 ## load R packages
 library(clusterProfiler)
@@ -74,13 +77,14 @@ if (!dir.exists(paste(filename, "GO", sep = "/"))) {
 }
 for (i in 1:length(gseGO_res@result$ID)) {
   cat("Plot ", gseGO_res@result$ID[i], " ", gseGO_res@result$Description[i], "\n", sep = "")
+    prefix <- str_replace(gseGO_res@result$ID[i], ":", "")
   p <- gseaplot2(gseGO_res, geneSetID = gseGO_res@result$ID[i], title = gseGO_res@result$Description[i])
   if(draw_pdf){
-    pdf(file = paste(filename, "/GO/", gseGO_res@result$Description[i], ".pdf", sep = ""), width = 6, height = 4.5)
+    pdf(file = paste(filename, "/GO/", prefix, ".pdf", sep = ""), width = 6, height = 4.5)
     print(p)
     dev.off()
   }
-  png(file = paste(filename, "/GO/", gseGO_res@result$Description[i], ".png", sep = ""), width = 6, height = 4.5, units = "in", res = 500)
+  png(file = paste(filename, "/GO/", prefix, ".png", sep = ""), width = 6, height = 4.5, units = "in", res = 500)
   print(p)
   dev.off()
 }
@@ -109,11 +113,11 @@ for (i in 1:length(gseKEGG_res@result$ID)) {
   cat("Plot ", gseKEGG_res@result$ID[i], " ", gseKEGG_res@result$Description[i], "\n", sep = "")
   p <- gseaplot2(gseKEGG_res, geneSetID = gseKEGG_res@result$ID[i], title = gseKEGG_res@result$Description[i])
   if(draw_pdf){
-    pdf(file = paste(filename, "/KEGG/", gseKEGG_res@result$Description[i], ".pdf", sep = ""), width = 6, height = 4.5)
+    pdf(file = paste(filename, "/KEGG/", gseKEGG_res@result$ID[i], ".pdf", sep = ""), width = 6, height = 4.5)
     print(p)
     dev.off()
   }
-  png(file = paste(filename, "/KEGG/", gseKEGG_res@result$Description[i], ".png", sep = ""), width = 6, height = 4.5, units = "in", res = 500)
+  png(file = paste(filename, "/KEGG/", gseKEGG_res@result$ID[i], ".png", sep = ""), width = 6, height = 4.5, units = "in", res = 500)
   print(p)
   dev.off()
 }
