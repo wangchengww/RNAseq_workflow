@@ -119,10 +119,14 @@ perl script/abundance_estimates_to_matrix.pl --est_method featureCounts --quant_
 # 差异表达
 cd ${work_dir}/04.DE_analysis
 perl ${trinity}/Analysis/DifferentialExpression/run_DE_analysis.pl \
-    --matrix ../03.Merge_result/genes.counts.matrix \
-    --method ${de_method} \
-    --samples_file ../00.data/samples.txt \
-    --contrasts contrasts.txt 
+	--matrix ../03.Merge_result/genes.counts.matrix \
+	--method ${de_method} \
+	--samples_file ../00.data/samples.txt \
+	--contrasts contrasts.txt
+
+# upset plot
+Rscript upset.R --de_log2FoldChange ${de_log2FoldChange} --de_padj ${de_padj}
+# volcano plot
 for i in DESeq2.*.dir/genes.counts.matrix.*DE_results
 do
 Rscript Volcano_plot.R \
