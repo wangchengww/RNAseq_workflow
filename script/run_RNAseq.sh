@@ -105,7 +105,7 @@ cd ${work_dir}/00.data/00.raw_data
 fastqc -o ./QC --nogroup --threads ${thread} *[fastq\|fq].gz
 cd ${work_dir}/00.data/01.clean_data
 fastqc -o ./QC --nogroup --threads ${thread} *clean.fastq.gz
-Rscript stat.R
+Rscript dataStat.R
 
 cd ${work_dir}/01.Mapping
 echo -e "Sample,Total read,Mapping read,Mapping rate,Unique mapping read,Unique mapping rate" > align_stat.csv
