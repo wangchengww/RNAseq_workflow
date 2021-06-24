@@ -54,7 +54,6 @@ if (is.na(select_geneID)) {
              vjust=1, hjust=1, colour="black", size=4) +
     scale_color_manual(values = c('#1613BF', '#727272', '#D5161A')) +
     theme_half_open()
-    Pvolcano
 } else {
   library(ggrepel)
   selected_genes <- read_tsv(file = select_geneID, col_names = F) %>% pull(X1)

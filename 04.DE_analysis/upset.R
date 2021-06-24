@@ -12,8 +12,8 @@ p <- add_argument(p, "--de_padj", help="adjust pvalue cutoff", type="numeric", d
 # Parse the command line arguments
 argv <- parse_args(p)
 
-log2FC <- argv$de_log2FoldChange
-padj <- argv$de_padj
+de_log2FC <- argv$de_log2FoldChange
+de_padj <- argv$de_padj
 #width <- argv$upsetW
 #height <- argv$upsetH
 
@@ -29,10 +29,10 @@ library(UpSetR)
 library(tidyverse)
 
 #setwd("..")
-dir <- list.dirs(path = ".")
-setwd(dir[str_detect(dir, "DESeq2")][1])
+#dir <- list.dirs(path = ".")
+#setwd(dir[str_detect(dir, "DESeq2")][1])
 
-files <- list.files(path = "./", pattern = "genes.+DE_result")
+files <- list.files(path = "./", pattern = "^genes.+DE_results$")
 
 item <- files %>% str_remove("genes.counts.matrix.") %>% str_remove(".DESeq2.DE_results")
 
@@ -42,13 +42,15 @@ for (i in 1:length(item)) {
     filter(abs(log2FoldChange) > de_log2FC & padj < de_padj) %>% 
     rownames(id)
 }
-p <- upset(fromList(dataforUpset))
+#p <- upset(fromList(dataforUpset))
 
-pdf(file = "upsetPlot.pdf", height = length(item) * 0.5 + 3.5, width = factorial(length(item)) * 0.5 + 3)
-print(p)
+pdf(file = "upsetPlot.pdf", height = length(item) * 0.5 + 3.5, width = length(item) * 0.5 + 6)
+#print(p)
+upset(fromList(dataforUpset), nsets = length(item))
 dev.off()
 
-png(filename = "upsetPlot.png", height = length(item) * 0.5 + 3.5, width = factorial(length(item)) * 0.5 + 3, units = "in", res = 500)
-print(p)
+png(filename = "upsetPlot.png", height = length(item) * 0.5 + 3.5, width = length(item) * 0.5 + 6, units = "in", res = 500)
+#print(p)
+upset(fromList(dataforUpset), nsets = length(item))
 dev.off()
 
