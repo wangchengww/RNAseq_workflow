@@ -154,6 +154,6 @@ do
 Rscript GSEA.R --de_result ${de_result} \
 	--enrich_pvalue ${enrich_pvalue} \
 	--orgdb ${orgdb} \
-	--draePdf ${pdf} \
+	--drawPdf ${pdf} \
 	--species ${species}
 done
