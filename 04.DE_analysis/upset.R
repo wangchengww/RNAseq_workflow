@@ -46,11 +46,11 @@ for (i in 1:length(item)) {
 
 pdf(file = "upsetPlot.pdf", height = length(item) * 0.5 + 3.5, width = length(item) * 0.5 + 6)
 #print(p)
-upset(fromList(dataforUpset), nsets = length(item))
+upset(fromList(dataforUpset), nsets = length(item), order.by = "freq")
 dev.off()
 
 png(filename = "upsetPlot.png", height = length(item) * 0.5 + 3.5, width = length(item) * 0.5 + 6, units = "in", res = 500)
 #print(p)
-upset(fromList(dataforUpset), nsets = length(item))
+upset(fromList(dataforUpset), nsets = length(item), order.by = "freq")
 dev.off()
 
