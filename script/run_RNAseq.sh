@@ -125,7 +125,12 @@ perl ${trinity}/Analysis/DifferentialExpression/run_DE_analysis.pl \
 	--contrasts contrasts.txt
 
 # upset plot
-Rscript upset.R --de_log2FoldChange ${de_log2FoldChange} --de_padj ${de_padj}
+for i in DESeq2.*.dir
+do
+cd ./${i}
+Rscript ../upset.R --de_log2FoldChange ${de_log2FoldChange} --de_padj ${de_padj}
+cd ../
+done
 # volcano plot
 for i in DESeq2.*.dir/genes.counts.matrix.*DE_results
 do
